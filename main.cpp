@@ -16,6 +16,17 @@ void loadCopies();
 void login();
 void readerInterface();
 void adminInterface();
+void borrowBook();
+void returnBook();
+void searchBook();
+void reserveBook();
+void cancelReservation();
+void renewBook();
+void recommendBook();
+void addBook();
+void deleteBook();
+void addUser();
+void deleteUser();
 int getTime();
 int adjustTime(int currentTime);
 
@@ -337,3 +348,41 @@ int adjustTime(int currentTime) { // This takes in the current time which will b
 	// This function takes the difference from the start time of the program and the current time
 	// and skews it so every 10 seconds the program was open a day passed
 }
+
+void borrowBook() {
+
+}
+void returnBook() {
+
+}
+void searchBook() {
+
+}
+void reserveBook() {
+	
+}
+void cancelReservation() {
+
+}
+void renewBook() {
+
+}
+void recommendBook() {
+
+}
+void addBook() {
+
+}
+void deleteBook() {
+
+}
+void addUser() {
+
+}
+void deleteUser() {
+
+}
+
+
+
+
