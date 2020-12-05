@@ -21,6 +21,23 @@ int reader::getMaxAllowed() {
 int reader::getMaxTime() {
 	return maxTime;
 }
+int reader::getPenalties() {
+	return penalties;
+}
+int reader::getBorrowedSize() {
+	return borrowedList.size();
+}
+int reader::getReservedSize() {
+	return reservedList.size();
+}
+int reader::getBorrowedBook(int x) {
+	return borrowedList[x];
+}
+int reader::getReservedBook(int x) {
+	return	reservedList[x];
+}
+
+
 
 
 void reader::printList() {							//This prints the ID's of all the reader's borrowed books

@@ -16,6 +16,9 @@ void loadCopies();
 void login();
 void readerInterface();
 void adminInterface();
+void uploadUsers();
+void uploadBooks();
+void uploadCopies();
 void borrowBook();
 void returnBook();
 void searchBook();
@@ -63,7 +66,9 @@ int main() {
 
 	cout << "Thank you for visiting the library!" << endl;
 
-
+	uploadUsers();
+	uploadBooks();
+	uploadCopies();
 
 }
 
@@ -176,6 +181,133 @@ void loadUsers() { //reads the data from users.txt
 	cout << "Successfully loaded user data" << endl << endl;	//gives a success message
 }
 
+
+
+void uploadUsers() {
+
+	ofstream data_out;
+	data_out.open("users.txt");			//opens users.txt as data_out
+	if (data_out.fail()) {
+		cerr << "Error: Failed to open 'users.txt'.";	//gives an error if it cant open user.txt
+		exit(1);
+	}
+
+	for (int i = 0; i < admins.size(); i++) {
+		data_out << "3 " << admins[i].getName() << " " << admins[i].getPass() << endl;
+	}
+	
+	for (int i = 0; i < teachers.size(); i++) {
+		data_out << "2 " << teachers[i].getName() << " " << teachers[i].getPass() << " ";
+		data_out << teachers[i].getPenalties() << " " << teachers[i].getMaxAllowed() << " " << teachers[i].getMaxTime() << " ";
+		data_out << teachers[i].getBorrowedSize() << " ";
+		for (int j = 0; j < teachers[i].getBorrowedSize(); j++) {
+			data_out << teachers[i].getBorrowedBook(j) << " ";
+		}
+		data_out << teachers[i].getReservedSize();
+		if (teachers[i].getReservedSize() != 0)
+			data_out << " ";
+		for (int j = 0; j < teachers[i].getReservedSize(); j++) {
+			data_out << teachers[i].getReservedBook(j);
+			if (teachers[i].getReservedSize() != j + 1) {
+				data_out << " ";
+			}
+		}
+		data_out << endl;
+	}
+
+	for (int i = 0; i < students.size(); i++) {
+		data_out << "1 " << students[i].getName() << " " << students[i].getPass() << " ";
+		data_out << students[i].getPenalties() << " " << students[i].getMaxAllowed() << " " << students[i].getMaxTime() << " ";
+		data_out << students[i].getBorrowedSize() << " ";
+		for (int j = 0; j < students[i].getBorrowedSize(); j++) {
+			data_out << students[i].getBorrowedBook(j) << " ";
+		}
+		data_out << students[i].getReservedSize();
+		if (students[i].getReservedSize() != 0) {
+			data_out << " ";
+		}
+		for (int j = 0; j < students[i].getReservedSize(); j++) {
+			data_out << students[i].getReservedBook(j);
+			if (students[i].getReservedSize() != j + 1) {
+				data_out << " ";
+			}
+		}
+		if (students.size() != i+1) {
+			data_out << endl;
+		}
+	}
+	cout << "User Data Successfully uploaded" << endl;
+	data_out.close();	//closes user.txt
+
+}
+
+void uploadBooks() {
+	ofstream data_out;
+	data_out.open("books.txt");			//opens books.txt as data_out
+	if (data_out.fail()) {
+		cerr << "Error: Failed to open 'books.txt'.";	//gives an error if it cant open books.txt
+		exit(1);
+	}
+
+	for (int i = 0; i < books.size(); i++) {
+		data_out << books[i].getISBN() << " " << books[i].getTitle() << " " << books[i].getAuthor() << " ";
+		data_out << books[i].getCategory() << " " << books[i].getFavor() << " " << books[i].getCount();
+		if (books[i].getCount() != 0)
+			data_out << " ";
+
+		for (int j = 0; j < books[i].getCount(); j++) {
+			data_out << books[i].getIndex(j);
+			if (books[i].getCount() != j + 1)
+				data_out << " ";
+		}
+
+		if (books.size() != i + 1) {
+			data_out << endl;
+		}
+	}
+
+	cout << "Books Uploaded" << endl;
+	data_out.close();
+}
+
+
+void uploadCopies() {
+	ofstream data_out;
+	data_out.open("copies.txt");			//opens copies.txt as data_out
+	if (data_out.fail()) {
+		cerr << "Error: Failed to open 'books.txt'.";	//gives an error if it cant open copies.txt
+		exit(1);
+	}
+	for (int i = 0; i < copiez.size(); i++) {
+		data_out << copiez[i].getID() << " " << copiez[i].getISBN() << " " << copiez[i].getAvailable() << " ";
+
+		if (!copiez[i].getAvailable()) {
+			data_out << copiez[i].getReader() << " " << copiez[i].getBorrowDate() << " " << copiez[i].getExpireDate() << " ";
+		}
+		
+		data_out << copiez[i].getReserverSize();
+	
+		for (int j = 0; j < copiez[i].getReserverSize(); j++) {
+			data_out << " " << copiez[i].getReserver(j) << " " << copiez[i].getReserverDate(j);
+		}
+		if (copiez.size() != i + 1)
+			data_out << endl;
+	}
+
+
+	cout << "Copies uploaded" << endl;
+
+	data_out.close();
+}
+
+
+
+
+
+
+
+
+
 void login() {	// user authentication function
 	while (1) {
 		string user = "", pass = "";	// strings holding the username and password
@@ -241,7 +373,7 @@ void readerInterface() {
 	}else if (userType == 2) {
 		cout << "Welcome " << teachers[userIndex].getName() << endl << endl;
 	}
-	while (1) {
+	while (!logout) {
 		cout << "(1) Borrow Book" << endl;
 		cout << "(2) Return Book" << endl;
 		cout << "(3) Search Book" << endl;
@@ -382,7 +514,3 @@ void addUser() {
 void deleteUser() {
 
 }
-
-
-
-
