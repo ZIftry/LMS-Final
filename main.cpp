@@ -10,7 +10,7 @@
 #include "copies.h"
 using namespace std;
 
-void loadUsers();	
+void loadUsers();
 void loadBooks();
 void loadCopies();
 void login();
@@ -28,6 +28,7 @@ void renewBook();
 void recommendBook();
 void addBook();
 void deleteBook();
+void searchUser();
 void addUser();
 void deleteUser();
 int getTime();
@@ -59,7 +60,7 @@ int main() {
 	else if (userType == 2 || userType == 1) {
 		readerInterface();
 	}
-	else{
+	else {
 		cerr << "Error in user type." << endl;
 		exit(1);
 	}
@@ -195,7 +196,7 @@ void uploadUsers() {
 	for (int i = 0; i < admins.size(); i++) {
 		data_out << "3 " << admins[i].getName() << " " << admins[i].getPass() << endl;
 	}
-	
+
 	for (int i = 0; i < teachers.size(); i++) {
 		data_out << "2 " << teachers[i].getName() << " " << teachers[i].getPass() << " ";
 		data_out << teachers[i].getPenalties() << " " << teachers[i].getMaxAllowed() << " " << teachers[i].getMaxTime() << " ";
@@ -232,7 +233,7 @@ void uploadUsers() {
 				data_out << " ";
 			}
 		}
-		if (students.size() != i+1) {
+		if (students.size() != i + 1) {
 			data_out << endl;
 		}
 	}
@@ -284,9 +285,9 @@ void uploadCopies() {
 		if (!copiez[i].getAvailable()) {
 			data_out << copiez[i].getReader() << " " << copiez[i].getBorrowDate() << " " << copiez[i].getExpireDate() << " ";
 		}
-		
+
 		data_out << copiez[i].getReserverSize();
-	
+
 		for (int j = 0; j < copiez[i].getReserverSize(); j++) {
 			data_out << " " << copiez[i].getReserver(j) << " " << copiez[i].getReserverDate(j);
 		}
@@ -313,7 +314,7 @@ void login() {	// user authentication function
 		string user = "", pass = "";	// strings holding the username and password
 		int ACCtype;
 		bool found = false;			// bool if a matching account is found
-		cout <<"Login: " << endl << endl;
+		cout << "Login: " << endl << endl;
 		cout << "(1) Student Login" << endl;
 		cout << "(2) Teacher Login" << endl;
 		cout << "(3) Admin Login" << endl;
@@ -370,7 +371,8 @@ void readerInterface() {
 	bool logout = false;
 	if (userType == 1) {
 		cout << "Welcome " << students[userIndex].getName() << endl << endl;
-	}else if (userType == 2) {
+	}
+	else if (userType == 2) {
 		cout << "Welcome " << teachers[userIndex].getName() << endl << endl;
 	}
 	while (!logout) {
@@ -420,18 +422,18 @@ void readerInterface() {
 void adminInterface() {
 	char input;
 	bool logout = false;
-	while (logout) {
-
+	while (1) {
 		cout << "Welcome " << admins[userIndex].getName() << endl << endl;
 		cout << "(1) Search Book" << endl;
 		cout << "(2) Add New Book" << endl;
 		cout << "(3) Delete Book" << endl;
-		cout << "(4) Add New User" << endl;
-		cout << "(5) Delete User" << endl;
+		cout << "(4) Search User" << endl;
+		cout << "(5) Add New User" << endl;
+		cout << "(6) Delete User" << endl;
 		cout << "(0) Logout" << endl;
 		cin >> input;
 		switch (input) {
-		case '0': 
+		case '0':
 			logout = true;
 			break;
 		case '1':
@@ -444,7 +446,7 @@ void adminInterface() {
 			deleteBook();
 			break;
 		case '4':
-			addUser();
+			searchUser();
 			break;
 		case '5':
 			deleteUser();
@@ -491,7 +493,7 @@ void searchBook() {
 
 }
 void reserveBook() {
-	
+
 }
 void cancelReservation() {
 
@@ -503,9 +505,39 @@ void recommendBook() {
 
 }
 void addBook() {
-
+	int ID = rand() % 1000000;
+	long long ISBN;
+	string title, author, category;
+	vector<int> index = 0;
+	cout << "Enter the ISBN, title, author's name, and category of the book: " << endl;
+	cin >> ISBN;
+	cin >> title;
+	cin >> author;
+	cin >> category;
+	for (int i = 0; i < books.size(); i++) {
+		if (ISBN == books[i].getISBN())
+			copiez.push_back(copies(ID, ISBN, 1));
+		else {
+			books.push_back(book(ISBN, title, author, category, 1, 0, index));
+		}
+	}
 }
 void deleteBook() {
+	int ID;
+	cout << "Enter the ID of the copy to be deleted: ";
+	cin >> ID;
+	for (int i = 0; i < copiez.size(); i++) {
+		if (ID == copiez[i].getID()) {
+			copiez.erase(copiez.begin() + i);
+			break;
+		}
+		else if (!copiez[i].getAvailable())
+			cerr << "Cannot delete, copy is lent out." << endl;
+		else
+			cerr << "Copy does not exist." << endl;
+	}
+}
+void searchUser() {
 
 }
 void addUser() {
