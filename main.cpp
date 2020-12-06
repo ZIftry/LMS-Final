@@ -713,6 +713,8 @@ void searchBook() {
 
 
 
+
+
 void cancelReservation() {
 
 }
@@ -721,51 +723,137 @@ void cancelReservation() {
 
 
 
+void addBook() { // Function adds a copy of a book if it already exists, creates a book object otherwise
+	int ID = rand() % 1000000;
+	long long ISBN;
+	string title, author, category;
+	vector<int> index;
+	index.push_back(0);
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-void reserveBook() {
-
+	cout << "Enter the ISBN, title, author's name, and category of the book: " << endl;
+	cin >> ISBN;
+	cin >> title;
+	cin >> author;
+	cin >> category;
+	for (int i = 0; i < books.size(); i++) {
+		if (books[i].getISBN() == ISBN) {
+			copiez.push_back(copies(ID, ISBN, 1));
+			cout << "New copy added." << endl;
+			break;
+		}
+		else {
+			books.push_back(book(ISBN, title, author, category, 1, 0, index));
+			cout << "New book added." << endl;
+			break;
+		}
+	}
 }
+void deleteBook() { // Function deletes a copy of a book from the list of copies
+	int ID;
 
-void renewBook() {
-
+	cout << "Enter the ID of the copy to be deleted: ";
+	cin >> ID;
+	for (int i = 0; i < copiez.size(); i++) {
+		if (ID == copiez[i].getID()) {
+			copiez.erase(copiez.begin() + i);
+			cout << "Copy deleted." << endl;
+			break;
+		}
+		else if (!copiez[i].getAvailable()) {
+			cerr << "Cannot delete, copy is lent out." << endl;
+			break;
+		}
+		else {
+			cerr << "Copy does not exist." << endl;
+			break;
+		}
+	}
 }
-void recommendBook() {
+void searchUser() { // Function searches for a user
+	string name;
 
+	cout << "Enter the username of the user to search: ";
+	cin >> name;
+	for (int i = 0; i < admins.size(); i++) {
+		if (admins[i].getName() == name) // If user is a librarian, prints username and password
+			cout << "Username: " << admins[i].getName()
+			<< "\nPassword: " << admins[i].getPass() << endl;
+	}
+	for (int i = 0; i < students.size(); i++) {
+		if (students[i].getName() == name) // If user is a student or a teacher, prints username, password,
+												// type, and the copies being borrowed
+			cout << "Username: " << students[i].getName()
+				 << "\nPassword: " << students[i].getPass()
+				 << "\nReader type: Student"
+				 << "\nCopies being kept: " << students[i].getBorrowedBook(i) << endl;
+	}
+	for (int i = 0; i < teachers.size() - 1; i++) {
+		if (teachers[i].getName() == name)
+			cout << "Username: " << teachers[i].getName()
+				 << "\nPassword: " << teachers[i].getPass()
+				 << "\nReader type: Teacher"
+				 << "\nCopies being kept: " << teachers[i].getBorrowedBook(i) << endl;
+	}
 }
-void addBook() {
+void addUser() { // Creates an account for a new user
+	string type, name, pass;
 
+	cout << "Enter the type of user (student/teacher/librarian): ";
+	cin >> type;
+	cout << "Enter the username and password for the user: ";
+	cin >> name;
+	cin >> pass;
+	for (int i = 0; i < students.size(); i++) {
+		if (students[i].getName() == name) {
+			cerr << "User already exists." << endl;
+			return;
+		}
+	}
+	for (int i = 0; i < teachers.size(); i++) {
+		if (teachers[i].getName() == name) {
+			cerr << "User already exists." << endl;
+			return;
+		}
+	}
+	for (int i = 0; i < admins.size(); i++) {
+		if (admins[i].getName() == name) {
+			cerr << "User already exists." << endl;
+			return;
+		}
+	}
+
+	if (type == "student") {
+		students.push_back(student(name, pass));
+		cout << "New user added." << endl;
+	}
+	else if (type == "teacher") {
+		teachers.push_back(teacher(name, pass));
+		cout << "New user added." << endl;
+	}
+	else if (type == "librarian") {
+		admins.push_back(librarian(name, pass));
+		cout << "New user added." << endl;
+	}
+
+	else
+		cout << "Enter a valid type of user." << endl;
 }
-void deleteBook() {
+void deleteUser() { // Deletes a user from the system
+	string name;
 
-}
-void addUser() {
-
-}
-void deleteUser() {
-
+	cout << "Enter the name of the user: ";
+	cin >> name;
+	for (int i = 0; i < students.size(); i++) {
+		if (students[i].getName() == name)
+			students.erase(students.begin() + i);
+	}
+	for (int i = 0; i < teachers.size(); i++) {
+		if (teachers[i].getName() == name)
+			teachers.erase(teachers.begin() + i);
+	}
+	for (int i = 0; i < admins.size(); i++) {
+		if (admins[i].getName() == name)
+			admins.erase(admins.begin() + i);
+	}
+	cout << "User deleted." << endl;
 }
