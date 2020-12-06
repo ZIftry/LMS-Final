@@ -17,6 +17,7 @@ private:
 public:
 	book();
 	book(long long a, string b, string c, string d, int e, int f, vector <int> g);	// Constructor
+	book(long long a, string b, string c, string d);
 
 	void setISBN(long long x);
 	void setTitle(string x);

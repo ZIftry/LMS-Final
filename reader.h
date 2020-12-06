@@ -3,7 +3,7 @@
 #include <string>
 using namespace std;
 
-class reader: public user{
+class reader : public user {
 protected:
 	int maxAllowed;	// Number of books allowed to take out
 	int maxTime;	// The amount of time they are allowed to take them out
@@ -17,15 +17,10 @@ public:
 
 	int getMaxAllowed();
 	int getMaxTime();			// get functions
-	int getPenalties();
-	int getBorrowedSize();
-	int getReservedSize();
-	int getBorrowedBook(int x);
-	int getReservedBook(int x);
-
 
 	void printList();	// Prints the borrowedList
 	void printReader();	//Prints all the information on the reader
+	void removeReserver(int index);
 
 	void borrowCopy(int x);		// When a student borrows a copy of ID X
 	void returnCopy(int x);		// used when a student returns a copy of ID X

@@ -3,11 +3,11 @@
 #include <vector>
 using namespace std;
 
-class copies{
+class copies {
 private:
 	int ID;
 	long long ISBN;
-	string reader;			
+	string reader;
 	bool available;
 	int borrowDate;
 	int expireDate;
@@ -19,7 +19,7 @@ public:
 	//ID ISBN Availability reader borrowDate ExpireDate #ofReservers reserverName reserveDate
 	copies(int a, long long b, bool c, string d, int e, int f, vector <string> g, vector <int> h);
 	copies(int a, long long b, bool c, vector <string> g, vector <int> h);
-
+	copies(long long b);
 
 	void setID(int x);
 	void setISBN(long long x);
@@ -46,4 +46,5 @@ public:
 
 	void addReserverDate(int x);		//These functions add information on a reserver
 	void addReserverName(string x);		// Either the date or name
+	void removeReserver(int index);
 };

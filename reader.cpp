@@ -21,22 +21,6 @@ int reader::getMaxAllowed() {
 int reader::getMaxTime() {
 	return maxTime;
 }
-int reader::getPenalties() {
-	return penalties;
-}
-int reader::getBorrowedSize() {
-	return borrowedList.size();
-}
-int reader::getReservedSize() {
-	return reservedList.size();
-}
-int reader::getBorrowedBook(int x) {
-	return borrowedList[x];
-}
-int reader::getReservedBook(int x) {
-	return	reservedList[x];
-}
-
 
 
 
@@ -62,6 +46,10 @@ void reader::printReader() {						// This function is for testing
 		cout << reservedList[i] << endl;
 	}
 	cout << endl;
+}
+
+void reader::removeReserver(int index){
+	reservedList.erase(reservedList.begin() + index);
 }
 
 

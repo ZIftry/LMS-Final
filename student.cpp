@@ -15,8 +15,16 @@ student::student(string a, string b, int c, int d, int e, vector <int> f, vector
 }
 
 student::student(string a, string b) {
+	vector<int> borrow;
+	vector<int> reserve;
+	
 	userName = a;
 	passWord = b;
+	maxAllowed = 5;
+	maxTime = 30;
+	penalties = 0;
+	borrowedList = borrow;
+	reservedList = reserve;
 }
 
 int student::borrowsListSize(){
@@ -29,4 +37,8 @@ int student::getPenalties(){
 
 int student::getListValue(int x){
 	return(borrowedList[x]);
+}
+
+int student::getReserveValue(int x){
+	return(reservedList[x]);
 }

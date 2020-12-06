@@ -11,8 +11,8 @@ book::book(){
 	title = "";
 	author = "";
 	category = "";
-	favor = -1;
-	count = -1;
+	favor = 0;
+	count = 0;
 	index = temp;
 }
 
@@ -24,6 +24,18 @@ book::book(long long a, string b, string c, string d, int e, int f, vector <int>
 	category = d;
 	favor = e;
 	count = f;
+	index = g;
+}
+
+book::book(long long a, string b, string c, string d){
+	vector<int> g;
+
+	ISBN = a;
+	title = b;
+	author = c;
+	category = d;
+	favor = 0;
+	count = 1;
 	index = g;
 }
 

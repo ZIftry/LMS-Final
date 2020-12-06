@@ -9,5 +9,6 @@ public:
 	int borrowsListSize();
 	int getPenalties();
 	int getListValue(int x);
+	int getReserveValue(int x);
 	// Check the .cpp file for more details
 };

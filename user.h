@@ -11,7 +11,7 @@ protected:
 public:
 	void setName(string x);		//Set functions
 	void setPass(string x);
-	
+
 
 	string getName();		//Get functions
 	string getPass();

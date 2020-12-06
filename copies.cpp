@@ -1,4 +1,6 @@
 #include "copies.h"
+#include <ctime>
+#include <cstdlib>
 using namespace std;
 
 
@@ -19,6 +21,21 @@ copies::copies(int a, long long b, bool c, vector <string> g, vector <int> h) {
 	ID = a;
 	ISBN = b;
 	available = c;
+	reservers = g;
+	reserverDates = h;
+}
+
+copies::copies(long long b){
+	srand((unsigned)time(0));
+	int randomNumber = rand() % 99999;
+
+	vector<string> g;
+	vector<int> h;
+
+
+	ID = randomNumber;
+	ISBN = b;
+	available = true;
 	reservers = g;
 	reserverDates = h;
 }
@@ -81,6 +98,10 @@ void copies::addReserverDate(int x) {
 }
 void copies::addReserverName(string x) {
 	reservers.push_back(x);
+}
+
+void copies::removeReserver(int index){
+	reservers.erase(reservers.begin() + index);
 }
 
 

@@ -13,7 +13,24 @@ teacher::teacher(string a, string b, int c, int d, int e, vector <int> f, vector
 	reservedList = g;
 }
 
+
 teacher::teacher(string a, string b) {
+	vector<int> borrow, reserve;
+	
 	userName = a;
 	passWord = b;
+	maxAllowed = 10;
+	maxTime = 50;
+	penalties = 0;
+	borrowedList = borrow;
+	reservedList = reserve;
+}
+
+
+int teacher::borrowsListSize() {
+	return(borrowedList.size());
+}
+
+int teacher::getReserveValue(int x){
+	return(reservedList[x]);
 }

@@ -9,11 +9,10 @@ void user::setPass(string x) {
 	passWord = x;
 }
 
-string user::getName(){
+string user::getName() {
 	return userName;
 }
 
-string user::getPass(){
+string user::getPass() {
 	return passWord;
 }
-
