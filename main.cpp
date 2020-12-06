@@ -16,6 +16,9 @@ void loadCopies();
 void login();
 void readerInterface();
 void adminInterface();
+void uploadUsers();
+void uploadBooks();
+void uploadCopies();
 void borrowBook();
 void returnBook();
 void searchBook();
@@ -25,6 +28,7 @@ void renewBook();
 void recommendBook();
 void addBook();
 void deleteBook();
+void searchUser();
 void addUser();
 void deleteUser();
 int getTime();
@@ -289,14 +293,14 @@ void readerInterface() {
 void adminInterface() {
 	char input;
 	bool logout = false;
-	while (logout) {
-
-		cout << "Welcome " << admins[userIndex].getName() << endl << endl;
+	while (1) {
+		cout << "\nWelcome " << admins[userIndex].getName() << endl << endl;
 		cout << "(1) Search Book" << endl;
 		cout << "(2) Add New Book" << endl;
 		cout << "(3) Delete Book" << endl;
-		cout << "(4) Add New User" << endl;
-		cout << "(5) Delete User" << endl;
+		cout << "(4) Search User" << endl;
+		cout << "(5) Add New User" << endl;
+		cout << "(6) Delete User" << endl;
 		cout << "(0) Logout" << endl;
 		cin >> input;
 		switch (input) {
@@ -313,9 +317,12 @@ void adminInterface() {
 			deleteBook();
 			break;
 		case '4':
-			addUser();
+			searchUser();
 			break;
 		case '5':
+			addUser();
+			break;
+		case '6':
 			deleteUser();
 			break;
 		default:
