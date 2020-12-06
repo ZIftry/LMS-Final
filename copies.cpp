@@ -111,3 +111,10 @@ int copies::getReserverSize() {
 int copies::getReserverDateSize() {
 	return reserverDates.size();
 }
+
+void copies::deleteFirstReserver() {
+	if (reserverDates.size()>0) {
+		reserverDates.erase(reserverDates.begin());
+		reservers.erase(reservers.begin());
+	}
+}
