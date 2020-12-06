@@ -14,6 +14,11 @@ student::student(string a, string b, int c, int d, int e, vector <int> f, vector
 	reservedList = g;
 }
 
+student::student(string a, string b) {
+	userName = a;
+	passWord = b;
+}
+
 int student::borrowsListSize(){
 	return(borrowedList.size());
 }
