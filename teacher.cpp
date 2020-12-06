@@ -12,3 +12,8 @@ teacher::teacher(string a, string b, int c, int d, int e, vector <int> f, vector
 	borrowedList = f;
 	reservedList = g;
 }
+
+teacher::teacher(string a, string b) {
+	userName = a;
+	passWord = b;
+}
