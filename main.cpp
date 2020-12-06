@@ -1188,7 +1188,162 @@ void reserveBook() {
 
 
 void recommendBook() {
+	int ID, counter = 1;
+	long long ISBN;
+	string category;
+	book temp;
+	vector<book> popularityVector;
+	int count = 1;
+
+	//Putting books in Favor Vector
+	for (int i = 0; i < books.size(); i++) {
+		popularityVector.push_back(books[i]);
+	}
+
+	//Sort by popularity
+	for (int i = 0; i < popularityVector.size(); i++) {
+		for (int j = 0; j < popularityVector.size(); j++) {
+			if (popularityVector[i].getFavor() > popularityVector[j].getFavor()) {
+				temp = popularityVector[i];
+				popularityVector[i] = popularityVector[j];
+				popularityVector[j] = temp;
+			}
+		}
+	}
+
+
+
+	if (userType == 1) {
+		//Check if list is empty
+		if (students[userIndex].borrowsListSize() == 0) {
+			srand((unsigned)time(0));
+			popularityVector.erase(popularityVector.begin() + 10, popularityVector.end());
+			
+			for (int i = 0; i < 10; i++) {
+				int randomNumber = rand() % 10;
+
+				if (count == 1)
+					cout << "Book Recomendation" << endl;
+
+				cout << "Book #" << count << endl;
+
+				count++;
+
+				cout << "ISBN- " << popularityVector[i].getISBN() << endl;
+				cout << "Title- " << popularityVector[i].getTitle() << endl;
+				cout << "Author's Name- " << popularityVector[i].getAuthor() << endl;
+				cout << "Category- " << popularityVector[i].getCategory() << endl << endl;
+
+			}
+
+			return;
+		}
+		else {
+			ID = students[userIndex].getListValue(students[userIndex].borrowsListSize());
+			
+			for (int i = 0; i < copiez.size(); i++) {
+				if (copiez[i].getID() == ID) {
+					ISBN = copiez[i].getISBN();
+				}
+			}
+
+			for (int i = 0; i < books.size(); i++) {
+				if (books[i].getISBN() == ISBN) {
+					category = books[i].getCategory();
+				}
+			}
+
+			for (int i = 0; i < 10; i++) {
+				
+				if (popularityVector[i].getCategory() == category) {
+					if (counter == 1)
+						cout << "Book Recomendation" << endl;
+
+					cout << "Book #" << count << endl;
+
+					counter++;
+
+					cout << "ISBN- " << popularityVector[i].getISBN() << endl;
+					cout << "Title- " << popularityVector[i].getTitle() << endl;
+					cout << "Author's Name- " << popularityVector[i].getAuthor() << endl;
+					cout << "Category- " << popularityVector[i].getCategory() << endl << endl;
+					
+					
+					counter++;
+					if (counter == 11)
+						return;
+
+				}
+			}
+
+		}
+		
+	}
+	
+
+	if (userType == 2) {
+		//Check if list is empty
+		if (teachers[userIndex].borrowsListSize() == 0) {
+			srand((unsigned)time(0));
+
+			for (int i = 0; i < 10; i++) {
+				int randomNumber = rand() % 10;
+
+				if (count == 1)
+					cout << "Book Recomendation" << endl;
+
+				cout << "Book #" << count << endl;
+
+				count++;
+
+				cout << "ISBN- " << popularityVector[i].getISBN() << endl;
+				cout << "Title- " << popularityVector[i].getTitle() << endl;
+				cout << "Author's Name- " << popularityVector[i].getAuthor() << endl;
+				cout << "Category- " << popularityVector[i].getCategory() << endl << endl;
+
+			}
+
+			return;
+		}
+		else {
+			ID = teachers[userIndex].getListValue(teachers[userIndex].borrowsListSize());
+
+			for (int i = 0; i < copiez.size(); i++) {
+				if (copiez[i].getID() == ID) {
+					ISBN = copiez[i].getISBN();
+				}
+			}
+
+			for (int i = 0; i < books.size(); i++) {
+				if (books[i].getISBN() == ISBN) {
+					category = books[i].getCategory();
+				}
+			}
+
+			for (int i = 0; i < 10; i++) {
+
+				if (popularityVector[i].getCategory() == category) {
+					if (counter == 1)
+						cout << "Book Recomendation" << endl;
+
+					cout << "Book #" << count << endl;
+
+					counter++;
+
+					cout << "ISBN- " << popularityVector[i].getISBN() << endl;
+					cout << "Title- " << popularityVector[i].getTitle() << endl;
+					cout << "Author's Name- " << popularityVector[i].getAuthor() << endl;
+					cout << "Category- " << popularityVector[i].getCategory() << endl << endl;
+
+
+					counter++;
+					if (counter == 11)
+						return;
+
+				}
+			}
+
+		}
+	}
 
 }
-
-
