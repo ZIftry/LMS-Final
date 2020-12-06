@@ -979,7 +979,7 @@ void deleteUser() {
 			}
 
 			for (int i = 0; i < copiez.size(); i++) {
-				for (int j = 0; j < idList.size() j++) {
+				for (int j = 0; j < idList.size(); j++) {
 					if (copiez[i].getID() == idList[j]) {
 						for (int k = 0; k < copiez[i].getReserverSize(); k++) {
 							if (copiez[i].getReserver(k) == students[userIndex].getName()) {
@@ -1008,7 +1008,7 @@ void deleteUser() {
 			}
 
 			for (int i = 0; i < copiez.size(); i++) {
-				for (int j = 0; j < idList.size() j++) {
+				for (int j = 0; j < idList.size(); j++) {
 					if (copiez[i].getID() == idList[j]) {
 						for (int k = 0; k < copiez[i].getReserverSize(); k++) {
 							if (copiez[i].getReserver(k) == teachers[userIndex].getName()) {
@@ -1097,8 +1097,6 @@ void deleteBook() {    // Function deletes a copy of a book from the list of cop
 }
 
 
-
-
 void renewBook() {
 	int id, index;
 	bool hasOverDue = false;
@@ -1136,8 +1134,6 @@ void renewBook() {
 		cout << "You have an overdue book please return that before renewing books." << endl;
 	}
 }
-
-
 
 
 void reserveBook() {
