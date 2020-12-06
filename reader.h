@@ -14,10 +14,15 @@ public:
 	void setMaxAllowed(int x);
 	void setMaxTime(int x);					//set functions
 	void setBorrowedList(vector <int> x);
-
+	void addReservedList(int x);
+	
+	
 	int getMaxAllowed();
 	int getMaxTime();			// get functions
-
+	int getBorrowedSize();
+	int getBorrowedBook(int x);
+	
+	
 	void printList();	// Prints the borrowedList
 	void printReader();	//Prints all the information on the reader
 	void removeReserver(int index);
