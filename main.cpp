@@ -1141,7 +1141,53 @@ void renewBook() {
 
 
 void reserveBook() {
+	int ID, index;
+	bool HasOverDue = false;
+	cout << "Enter the ID of the book you would like to reserve." << endl;
+	cin >> ID;
+	if(userType == 1){
+		for (int i = 0; i < students[userIndex].getBorrowedSize(); i++) {	// Loops for the number of borrowed books
+			for (int j = 0; j < copiez.size(); j++) {
+				if (copiez[j].getID() == students[userIndex].getBorrowedBook(j)) {	//This is true if they have borrowed this book
+					if (copiez[j].getExpireDate() < adjustTime(getTime())) {				//this is true if the book is overdue
+						HasOverDue = true;
+					}
+				}
+			}
+		}
+	}
+	else if (userType == 2) {
+		for (int i = 0; i < teachers[userIndex].getBorrowedSize(); i++) {	// Loops for the number of borrowed books
+			for (int j = 0; j < copiez.size(); j++) {
+				if (copiez[j].getID() == teachers[userIndex].getBorrowedBook(j)) {	//This is true if they have borrowed this book
+					if (copiez[j].getExpireDate() < adjustTime(getTime())) {				//this is true if the book is overdue
+						HasOverDue = true;
+					}
+				}
+			}
+		}
+	}
 
+	if (!HasOverDue) {
+		for (int i = 0; i < copiez.size(); i++) {
+			if (copiez[i].getID() == ID)
+				index = i;
+		}
+		copiez[index].addReserverDate(adjustTime(getTime()));
+		if (userType == 1) {
+			students[userIndex].addReservedList(ID);
+			copiez[index].setReader(students[userIndex].getName());
+			copiez[index].addReserverName(students[userIndex].getName());
+		}
+		else if (userType == 2) {
+			teachers[userIndex].addReservedList(ID);
+			copiez[index].setReader(teachers[userIndex].getName());
+			copiez[index].addReserverName(teachers[userIndex].getName());
+		}
+	}
+	else {
+		cout << "Please return overdue books to reserve a book." << endl;
+	}
 }
 
 
