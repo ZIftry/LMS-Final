@@ -1,8 +1,20 @@
 #include <iostream>
 #include <vector>
 #include "book.h"
-using namespace std; 
+using namespace std;
 
+
+book::book(){
+	vector<int> temp;
+
+	ISBN = -1;
+	title = "";
+	author = "";
+	category = "";
+	favor = -1;
+	count = -1;
+	index = temp;
+}
 
 //Constructor:
 book::book(long long a, string b, string c, string d, int e, int f, vector <int> g) {

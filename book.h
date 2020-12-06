@@ -15,6 +15,7 @@ private:
 	vector <int> index;
 
 public:
+	book();
 	book(long long a, string b, string c, string d, int e, int f, vector <int> g);	// Constructor
 
 	void setISBN(long long x);
@@ -22,7 +23,7 @@ public:
 	void setAuthor(string x);
 	void setCategory(string x);		//Set functions
 	void setFavor(int x);
-	void setCount(int x);	
+	void setCount(int x);
 	void addIndex(int x);
 
 	long long getISBN();

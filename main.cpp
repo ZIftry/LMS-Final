@@ -16,9 +16,6 @@ void loadCopies();
 void login();
 void readerInterface();
 void adminInterface();
-void uploadUsers();
-void uploadBooks();
-void uploadCopies();
 void borrowBook();
 void returnBook();
 void searchBook();
@@ -28,7 +25,6 @@ void renewBook();
 void recommendBook();
 void addBook();
 void deleteBook();
-void searchUser();
 void addUser();
 void deleteUser();
 int getTime();
@@ -67,9 +63,7 @@ int main() {
 
 	cout << "Thank you for visiting the library!" << endl;
 
-	uploadUsers();
-	uploadBooks();
-	uploadCopies();
+
 
 }
 
@@ -182,133 +176,6 @@ void loadUsers() { //reads the data from users.txt
 	cout << "Successfully loaded user data" << endl << endl;	//gives a success message
 }
 
-
-
-void uploadUsers() {
-
-	ofstream data_out;
-	data_out.open("users.txt");			//opens users.txt as data_out
-	if (data_out.fail()) {
-		cerr << "Error: Failed to open 'users.txt'.";	//gives an error if it cant open user.txt
-		exit(1);
-	}
-
-	for (int i = 0; i < admins.size(); i++) {
-		data_out << "3 " << admins[i].getName() << " " << admins[i].getPass() << endl;
-	}
-
-	for (int i = 0; i < teachers.size(); i++) {
-		data_out << "2 " << teachers[i].getName() << " " << teachers[i].getPass() << " ";
-		data_out << teachers[i].getPenalties() << " " << teachers[i].getMaxAllowed() << " " << teachers[i].getMaxTime() << " ";
-		data_out << teachers[i].getBorrowedSize() << " ";
-		for (int j = 0; j < teachers[i].getBorrowedSize(); j++) {
-			data_out << teachers[i].getBorrowedBook(j) << " ";
-		}
-		data_out << teachers[i].getReservedSize();
-		if (teachers[i].getReservedSize() != 0)
-			data_out << " ";
-		for (int j = 0; j < teachers[i].getReservedSize(); j++) {
-			data_out << teachers[i].getReservedBook(j);
-			if (teachers[i].getReservedSize() != j + 1) {
-				data_out << " ";
-			}
-		}
-		data_out << endl;
-	}
-
-	for (int i = 0; i < students.size(); i++) {
-		data_out << "1 " << students[i].getName() << " " << students[i].getPass() << " ";
-		data_out << students[i].getPenalties() << " " << students[i].getMaxAllowed() << " " << students[i].getMaxTime() << " ";
-		data_out << students[i].getBorrowedSize() << " ";
-		for (int j = 0; j < students[i].getBorrowedSize(); j++) {
-			data_out << students[i].getBorrowedBook(j) << " ";
-		}
-		data_out << students[i].getReservedSize();
-		if (students[i].getReservedSize() != 0) {
-			data_out << " ";
-		}
-		for (int j = 0; j < students[i].getReservedSize(); j++) {
-			data_out << students[i].getReservedBook(j);
-			if (students[i].getReservedSize() != j + 1) {
-				data_out << " ";
-			}
-		}
-		if (students.size() != i + 1) {
-			data_out << endl;
-		}
-	}
-	cout << "User Data Successfully uploaded" << endl;
-	data_out.close();	//closes user.txt
-
-}
-
-void uploadBooks() {
-	ofstream data_out;
-	data_out.open("books.txt");			//opens books.txt as data_out
-	if (data_out.fail()) {
-		cerr << "Error: Failed to open 'books.txt'.";	//gives an error if it cant open books.txt
-		exit(1);
-	}
-
-	for (int i = 0; i < books.size(); i++) {
-		data_out << books[i].getISBN() << " " << books[i].getTitle() << " " << books[i].getAuthor() << " ";
-		data_out << books[i].getCategory() << " " << books[i].getFavor() << " " << books[i].getCount();
-		if (books[i].getCount() != 0)
-			data_out << " ";
-
-		for (int j = 0; j < books[i].getCount(); j++) {
-			data_out << books[i].getIndex(j);
-			if (books[i].getCount() != j + 1)
-				data_out << " ";
-		}
-
-		if (books.size() != i + 1) {
-			data_out << endl;
-		}
-	}
-
-	cout << "Books Uploaded" << endl;
-	data_out.close();
-}
-
-
-void uploadCopies() {
-	ofstream data_out;
-	data_out.open("copies.txt");			//opens copies.txt as data_out
-	if (data_out.fail()) {
-		cerr << "Error: Failed to open 'books.txt'.";	//gives an error if it cant open copies.txt
-		exit(1);
-	}
-	for (int i = 0; i < copiez.size(); i++) {
-		data_out << copiez[i].getID() << " " << copiez[i].getISBN() << " " << copiez[i].getAvailable() << " ";
-
-		if (!copiez[i].getAvailable()) {
-			data_out << copiez[i].getReader() << " " << copiez[i].getBorrowDate() << " " << copiez[i].getExpireDate() << " ";
-		}
-
-		data_out << copiez[i].getReserverSize();
-
-		for (int j = 0; j < copiez[i].getReserverSize(); j++) {
-			data_out << " " << copiez[i].getReserver(j) << " " << copiez[i].getReserverDate(j);
-		}
-		if (copiez.size() != i + 1)
-			data_out << endl;
-	}
-
-
-	cout << "Copies uploaded" << endl;
-
-	data_out.close();
-}
-
-
-
-
-
-
-
-
-
 void login() {	// user authentication function
 	while (1) {
 		string user = "", pass = "";	// strings holding the username and password
@@ -375,7 +242,7 @@ void readerInterface() {
 	else if (userType == 2) {
 		cout << "Welcome " << teachers[userIndex].getName() << endl << endl;
 	}
-	while (!logout) {
+	while (1) {
 		cout << "(1) Borrow Book" << endl;
 		cout << "(2) Return Book" << endl;
 		cout << "(3) Search Book" << endl;
@@ -422,14 +289,14 @@ void readerInterface() {
 void adminInterface() {
 	char input;
 	bool logout = false;
-	while (1) {
+	while (logout) {
+
 		cout << "Welcome " << admins[userIndex].getName() << endl << endl;
 		cout << "(1) Search Book" << endl;
 		cout << "(2) Add New Book" << endl;
 		cout << "(3) Delete Book" << endl;
-		cout << "(4) Search User" << endl;
-		cout << "(5) Add New User" << endl;
-		cout << "(6) Delete User" << endl;
+		cout << "(4) Add New User" << endl;
+		cout << "(5) Delete User" << endl;
 		cout << "(0) Logout" << endl;
 		cin >> input;
 		switch (input) {
@@ -446,7 +313,7 @@ void adminInterface() {
 			deleteBook();
 			break;
 		case '4':
-			searchUser();
+			addUser();
 			break;
 		case '5':
 			deleteUser();
@@ -483,21 +350,407 @@ int adjustTime(int currentTime) { // This takes in the current time which will b
 	// and skews it so every 10 seconds the program was open a day passed
 }
 
+
+
+
+
+
+
 void borrowBook() {
+	int bookID, bookIndex = -1;       //bookID is the ID of the book the user wants to take borrow   
+									// bookIndex is the index of that book in the vector books
+	bool allowed = true;	// this bool is false if the student is not allowed to take out another book
 
+	//Test if the student has maximum copies borrowed
+	if (students[userIndex].getMaxAllowed() <= students[userIndex].borrowsListSize()) {
+		// First checks if the student has his maximum allowed number of books taken out
+
+		cout << "You have already taken out your maximum amount of books. Please return a book to take one out." << endl;
+		allowed = false;	// if so prints this msg and sets allowed = false
+	}
+
+	//Check for overdue copies
+
+
+	//Enter ID of book to see if copy is available
+
+
+	//Check if others have reserved the book/If they they have cancelled reservation
+
+	//Use formula to determine borrow period
+
+	//Make student borrower of the copy
+
+	//Put ID on the students borrow list
 }
+
+
+
+
 void returnBook() {
+	int returnID, copyIndex;	//ID of the book the student is returning
+	student student = students[userIndex];
+	vector<int> newList;
+	bool copy = false;
+	
+
+	cout << "What is the ID of the book you want to return?" << endl;
+	cin >> returnID;							// Asks for the ID of the book and takes it in
+
+	
+	//Make sure student Book ID input is on the list
+	for (int i = 0; i < student.borrowsListSize(); i++) {
+		if ((student.getListValue(i) == returnID)) {
+			copy = true;
+		}
+	}
+
+
+
+	//Copy removed from students list of borrowed copies
+	if (copy) {
+		for (int i = 0; i < student.borrowsListSize(); i++) {
+			if (!(student.getListValue(i) == returnID)) {
+				newList.push_back(student.getListValue(i));
+			}
+		}
+		//Set penalty using formula/////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+		student.setBorrowedList(newList);
+	}
+	else {
+		cout << "The ID entered is not on the list of borrowed books" << endl;
+		return;
+	}
+
+	//make copy available in copiez vector
+
+	for (int i = 0; i < copiez.size(); i++) {//Find index of the copy
+		if (copiez[i].getID() == returnID)
+			copyIndex = i;
+	}
+
+	copiez[copyIndex].setAvailable(true);//Make the copy avaible
+
 
 }
+
+
+
+
 void searchBook() {
+	int index = -1;
+	char input;
+	long long ISBN;
+	int counter = 1;
+	bool flag = false;
+	string title, author, category;
+	vector<book> popularityVector;
+	book temp;
+
+
+	cout << "(1) Search by ISBN" << endl;
+	cout << "(2) Search by Title" << endl;
+	cout << "(3) Search by Author's Name" << endl;
+	cout << "(4) Search by Category" << endl;
+
+	cin >> input;
+	
+	cout << endl;
+
+	switch (input) {
+		case '1'://ISBN Case
+
+			cout << "Enter ISBN- ";
+			cin >> ISBN;
+			cout << endl;
+
+			//Book Info listing
+			for (int i = 0; i < books.size(); i++) {
+				if (books[i].getISBN() == ISBN) {
+					index = i;
+					cout << "Book Found" << endl;
+					cout << "ISBN- " << books[i].getISBN() << endl;
+					cout << "Title- " << books[i].getTitle() << endl;
+					cout << "Author's Name- " << books[i].getAuthor() << endl;
+					cout << "Category- " << books[i].getCategory() << endl << endl;
+				}
+			}
+
+			//If index is invalid
+			if (index == -1) {
+				cout << "ISBN entered is not a book in the database" << endl << endl;
+				return;
+			}
+
+			//Check if there exists any copies
+			for (int i = 0; i < copiez.size(); i++) {
+				if (copiez[i].getISBN() == ISBN && copiez[i].getAvailable() == true) {
+					flag = true;
+				}
+			}
+
+			//12423347357
+			//ID copy listing
+			if (flag) {
+				cout << "ID's of the available Copies" << endl;
+				for (int i = 0; i < copiez.size(); i++) {
+					if (copiez[i].getISBN() == ISBN && copiez[i].getAvailable() == true) {
+						cout << "(" << counter << ") " << copiez[i].getID() << endl;
+						counter++;
+					}
+				}
+				cout << endl << endl;
+			}
+
+
+			break;
+		case '2'://Title case
+			cout << "Enter Title of Book- ";
+			cin >> title;
+			cout << endl;
+
+			//Book Info listing
+			for (int i = 0; i < books.size(); i++) {
+				if (books[i].getTitle() == title) {
+					index = i;
+					cout << "Book Found" << endl;
+					cout << "ISBN- " << books[i].getISBN() << endl;
+					cout << "Title- " << books[i].getTitle() << endl;
+					cout << "Author's Name- " << books[i].getAuthor() << endl;
+					cout << "Category- " << books[i].getCategory() << endl << endl;
+				}
+			}
+
+			//If index is invalid
+			if (index == -1) {
+				cout << "Title entered is not a book in the database" << endl << endl;
+				return;
+			}
+
+			//Check if there exists any copies
+			for (int i = 0; i < books.size(); i++) {
+				if (books[i].getTitle() == title) {
+					ISBN = books[i].getISBN();
+				}
+			}
+
+			for (int i = 0; i < copiez.size(); i++) {
+				if (copiez[i].getISBN() == ISBN && copiez[i].getAvailable() == true) {
+					flag = true;
+				}
+			}
+
+			//12423347357
+			//ID copy listing
+			if (flag) {
+				cout << "ID's of the available Copies" << endl;
+				for (int i = 0; i < copiez.size(); i++) {
+					if (copiez[i].getISBN() == ISBN && copiez[i].getAvailable() == true) {
+						cout << "(" << counter << ") " << copiez[i].getID() << endl;
+						counter++;
+					}
+				}
+				cout << endl << endl;
+			}
+
+			break;
+		
+		
+		
+		
+		case '3'://Author case
+			cout << "Enter the Author's Name- ";
+			cin >> author;
+			cout << endl;
+
+			//Putting books in Vector
+			for (int i = 0; i < books.size(); i++) {
+				if (books[i].getAuthor() == author) {
+					popularityVector.push_back(books[i]);
+				}
+			}
+
+			//Check if the author exists
+			if (popularityVector.size() == 0) {
+				cout << "Author entered is not in the database" << endl << endl;
+				return;
+			}
+
+			//Sort by popularity
+			for (int i = 0; i < popularityVector.size(); i++) {
+				for (int j = 0; j < popularityVector.size(); j++) {
+					if (popularityVector[i].getFavor() > popularityVector[j].getFavor()) {
+						temp = popularityVector[i];
+						popularityVector[i] = popularityVector[j];
+						popularityVector[j] = temp;
+					}
+				}
+			}
+
+			//Print info
+			for (int i = 0; i < popularityVector.size(); i++) {
+				if(counter == 1)
+					cout << "Books Found" << endl;
+				
+				cout << "Book #" << counter << endl;
+
+				counter++;
+
+				cout << "ISBN- " << popularityVector[i].getISBN() << endl;
+				cout << "Title- " << popularityVector[i].getTitle() << endl;
+				cout << "Author's Name- " << popularityVector[i].getAuthor() << endl;
+				cout << "Category- " << popularityVector[i].getCategory() << endl << endl;
+			}
+
+			counter = 1;
+			
+			//See if any copies exist
+			for (int i = 0; i < copiez.size(); i++) {
+				for (int j = 0; j < popularityVector.size(); j++) {
+					if (copiez[i].getISBN() == popularityVector[j].getISBN() && copiez[i].getAvailable() == true) {
+						flag = true;
+					}
+				}
+			}
+
+			//ID copy listing
+			if (flag) {
+				cout << "ID's of the available Copies" << endl;
+				for (int i = 0; i < copiez.size(); i++) {
+					for (int j = 0; j < popularityVector.size(); j++) {
+						if (copiez[i].getISBN() == popularityVector[j].getISBN() && copiez[i].getAvailable() == true) {
+							cout << "(" << counter << ") " << copiez[i].getID() << endl;
+							counter++;
+						}
+					}
+				}
+				cout << endl << endl;
+			}
+
+			break;
+		case '4'://Category case
+			cout << "Enter the Category- ";
+			cin >> category;
+			cout << endl;
+
+			//Putting books in Vector
+			for (int i = 0; i < books.size(); i++) {
+				if (books[i].getCategory() == category) {
+					popularityVector.push_back(books[i]);
+				}
+			}
+
+			//Check if the author exists
+			if (popularityVector.size() == 0) {
+				cout << "Category entered is not in the database" << endl << endl;
+				return;
+			}
+
+			//Sort by popularity
+			for (int i = 0; i < popularityVector.size(); i++) {
+				for (int j = 0; j < popularityVector.size(); j++) {
+					if (popularityVector[i].getFavor() > popularityVector[j].getFavor()) {
+						temp = popularityVector[i];
+						popularityVector[i] = popularityVector[j];
+						popularityVector[j] = temp;
+					}
+				}
+			}
+
+			//Print info
+			for (int i = 0; i < popularityVector.size(); i++) {
+				if (counter == 1)
+					cout << "Books Found" << endl;
+
+				cout << "Book #" << counter << endl;
+
+				counter++;
+
+				cout << "ISBN- " << popularityVector[i].getISBN() << endl;
+				cout << "Title- " << popularityVector[i].getTitle() << endl;
+				cout << "Author's Name- " << popularityVector[i].getAuthor() << endl;
+				cout << "Category- " << popularityVector[i].getCategory() << endl << endl;
+			}
+
+			counter = 1;
+
+			//See if any copies exist
+			for (int i = 0; i < copiez.size(); i++) {
+				for (int j = 0; j < popularityVector.size(); j++) {
+					if (copiez[i].getISBN() == popularityVector[j].getISBN() && copiez[i].getAvailable() == true) {
+						flag = true;
+					}
+				}
+			}
+
+			//ID copy listing
+			if (flag) {
+				cout << "ID's of the available Copies" << endl;
+				for (int i = 0; i < copiez.size(); i++) {
+					for (int j = 0; j < popularityVector.size(); j++) {
+						if (copiez[i].getISBN() == popularityVector[j].getISBN() && copiez[i].getAvailable() == true) {
+							cout << "(" << counter << ") " << copiez[i].getID() << endl;
+							counter++;
+						}
+					}
+				}
+				cout << endl << endl;
+			}
+
+
+
+			break;
+		default:
+			cout << "Not a valid Input returning to main" << endl;
+				return;
+	}
+
+
 
 }
-void reserveBook() {
 
-}
+
+
 void cancelReservation() {
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+void reserveBook() {
+
+}
+
 void renewBook() {
 
 }
@@ -505,39 +758,9 @@ void recommendBook() {
 
 }
 void addBook() {
-	int ID = rand() % 1000000;
-	long long ISBN;
-	string title, author, category;
-	vector<int> index = 0;
-	cout << "Enter the ISBN, title, author's name, and category of the book: " << endl;
-	cin >> ISBN;
-	cin >> title;
-	cin >> author;
-	cin >> category;
-	for (int i = 0; i < books.size(); i++) {
-		if (ISBN == books[i].getISBN())
-			copiez.push_back(copies(ID, ISBN, 1));
-		else {
-			books.push_back(book(ISBN, title, author, category, 1, 0, index));
-		}
-	}
+
 }
 void deleteBook() {
-	int ID;
-	cout << "Enter the ID of the copy to be deleted: ";
-	cin >> ID;
-	for (int i = 0; i < copiez.size(); i++) {
-		if (ID == copiez[i].getID()) {
-			copiez.erase(copiez.begin() + i);
-			break;
-		}
-		else if (!copiez[i].getAvailable())
-			cerr << "Cannot delete, copy is lent out." << endl;
-		else
-			cerr << "Copy does not exist." << endl;
-	}
-}
-void searchUser() {
 
 }
 void addUser() {
