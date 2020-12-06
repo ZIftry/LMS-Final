@@ -14,6 +14,18 @@ void reader::setBorrowedList(vector <int> x) {
 	borrowedList = x;
 }
 
+void reader::addReservedList(int x) {
+	reservedList.push_back(x);
+}
+
+int reader::getBorrowedBook(int x) {
+	return borrowedList[x];
+}
+
+int reader::getBorrowedSize() {
+	return borrowedList.size();
+}
+
 // Get functions:
 int reader::getMaxAllowed() {
 	return maxAllowed;
