@@ -34,6 +34,17 @@ int reader::getMaxTime() {
 	return maxTime;
 }
 
+int reader::getPenalties() {
+	return penalties;
+}
+
+int reader::getReservedBook(int x) {
+	return reservedList[x];
+}
+
+int reader::getReservedSize() {
+	return reservedList.size();
+}
 
 
 void reader::printList() {							//This prints the ID's of all the reader's borrowed books

@@ -21,7 +21,9 @@ public:
 	int getMaxTime();			// get functions
 	int getBorrowedSize();
 	int getBorrowedBook(int x);
-	
+	int getReservedSize();
+	int getPenalties();
+	int getReservedBook(int x);
 	
 	void printList();	// Prints the borrowedList
 	void printReader();	//Prints all the information on the reader
