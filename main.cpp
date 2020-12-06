@@ -66,8 +66,10 @@ int main() {
 	}
 
 	cout << "Thank you for visiting the library!" << endl;
-
-
+	
+	uploadUsers();
+	uploadBooks();
+	uploadCopies();
 
 }
 
@@ -729,7 +731,7 @@ void cancelReservation() {
 void renewBook() {
 
 }
-void recommendBook() {
+void recommendBook() {  //Bonus
 
 }
 
