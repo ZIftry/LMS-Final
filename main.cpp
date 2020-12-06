@@ -726,7 +726,12 @@ void cancelReservation() {
 
 }
 
+void renewBook() {
 
+}
+void recommendBook() {
+
+}
 
 
 
