@@ -47,4 +47,6 @@ public:
 	void addReserverDate(int x);		//These functions add information on a reserver
 	void addReserverName(string x);		// Either the date or name
 	void removeReserver(int index);
+	
+	void deleteFirstReserver();   // This deletes the most recent reserver from both vectors
 };
