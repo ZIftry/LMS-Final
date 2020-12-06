@@ -535,7 +535,7 @@ void borrowBook() {
 			copiez[availableCopies[bookIndex]].setAvailable(false); //update availibilty 
 			copiez[availableCopies[bookIndex]].deleteFirstReserver();	//removes the logged in user from the reserve list
 			copiez[availableCopies[bookIndex]].setExpireDate(adjustTime(getTime()) + students[userIndex].getMaxTime() - copiez[availableCopies[bookIndex]].getReserverSize());	//sets the expiration date, its the users maxtime - the number of current reservers
-
+			/*
 			cout << "ISBN: " << copiez[2].getISBN() << endl;
 			cout << "Reader: " << copiez[2].getReader() << endl;
 			if (copiez[2].getAvailable())
@@ -545,7 +545,7 @@ void borrowBook() {
 				cout << "It is not available" << endl;
 			cout << "Borrowed on " << copiez[2].getBorrowDate() << endl << "expires on " << copiez[2].getExpireDate() << endl;
 
-
+			*/
 
 			cout << "You have successfully borrowed this book. It must be returned within " << students[userIndex].getMaxTime() - copiez[availableCopies[bookIndex]].getReserverSize() << " days." << endl;
 		}
