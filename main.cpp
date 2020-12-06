@@ -352,9 +352,133 @@ int adjustTime(int currentTime) { // This takes in the current time which will b
 
 
 
-
 void borrowBook() {
-	
+	bool canBorrow = true, hasOverdue = false;
+	long long ISBN;
+	int bookIndex;
+	vector <int> availableCopies;   //A vector of the Index's of the available copies
+	cout << "Enter the ISBN of the book you would like to borrow." << endl;
+	cin >> ISBN;
+	if (userType == 1) {	
+		// We will check if they have overdue books now:
+		for (int i = 0; i < students[userIndex].getBorrowedSize(); i++) {	// Loops for the number of borrowed books
+			for (int j = 0; j < copiez.size(); j++) {
+				if (copiez[j].getID() == students[userIndex].getBorrowedBook(j)) {	//This is true if they have borrowed this book
+					if (copiez[j].getExpireDate() < adjustTime(getTime())) {				//this is true if the book is overdue
+						hasOverdue = true;
+						canBorrow = false;
+					}
+				}
+			}
+		}
+		//Checking if they are at their max number of books borrowed:
+		if (students[userIndex].getMaxAllowed() <= students[userIndex].getBorrowedSize()) {
+			canBorrow = false;
+			cout << "You already have borrowed your maximum amount of books. Please return a book to take one out." << endl;
+		}
+		if (hasOverdue) {
+			canBorrow = false;
+			cout << "You have overdue books. Please return them to take a new one out." << endl;
+		}
+
+		if (canBorrow) {
+			for (int i = 0; i < copiez.size(); i++) {//loops through all the copies to find matching ISBN
+				if (copiez[i].getISBN() == ISBN) {
+					if (copiez[i].getAvailable()) {	// If this copy is available
+						if (copiez[i].getReserverSize() == 0) {	// If the copy is not reserved the index is saved and the for loop is broken
+							availableCopies.push_back(i);
+						}
+						else {
+							if (copiez[i].getReserver(0) == students[userIndex].getName()) { //Checks if the User is the reservee
+									availableCopies.push_back(i);
+							}
+						}
+					}
+				}
+			}
+			cout << "Here is a list of the book ID's of the available copies with the given ISBN:" << endl;
+			for (int i = 0; i < availableCopies.size(); i++) {
+				cout << i+1 << ": " << copiez[availableCopies[i]].getID() << endl;
+			}
+			cout << endl << "Which one would you like to borrow?" << endl;
+			cin >> bookIndex;
+			bookIndex--;
+
+			students[userIndex].borrowCopy(copiez[availableCopies[bookIndex]].getID()); // Adds the ID of the copy to the student's list
+			copiez[availableCopies[bookIndex]].setReader(students[userIndex].getName()); //sets reader name in the copy
+			copiez[availableCopies[bookIndex]].setBorrowDate(adjustTime(getTime()));	//Sets borrow time in the copy
+			copiez[availableCopies[bookIndex]].setAvailable(false); //update availibilty 
+			copiez[availableCopies[bookIndex]].deleteFirstReserver();	//removes the logged in user from the reserve list
+			copiez[availableCopies[bookIndex]].setExpireDate(adjustTime(getTime()) + students[userIndex].getMaxTime() - copiez[availableCopies[bookIndex]].getReserverSize());	//sets the expiration date, its the users maxtime - the number of current reservers
+
+			cout << "ISBN: " << copiez[2].getISBN() << endl;
+			cout << "Reader: " << copiez[2].getReader() << endl;
+			if (copiez[2].getAvailable())
+				cout << "It is available" << endl;
+
+			if (!copiez[2].getAvailable())
+				cout << "It is not available" << endl;
+			cout << "Borrowed on " << copiez[2].getBorrowDate() << endl << "expires on " << copiez[2].getExpireDate() << endl;
+
+
+
+			cout << "You have successfully borrowed this book. It must be returned within " << students[userIndex].getMaxTime() - copiez[availableCopies[bookIndex]].getReserverSize() << " days." << endl;
+		}
+	}
+	else if (userType == 2) {
+		// We will check if they have overdue books now:
+		for (int i = 0; i < teachers[userIndex].getBorrowedSize(); i++) {	// Loops for the number of borrowed books
+			for (int j = 0; j < copiez.size(); j++) {
+				if (copiez[j].getID() == teachers[userIndex].getBorrowedBook(j)) {	//This is true if they have borrowed this book
+					if (copiez[j].getExpireDate() < adjustTime(getTime())) {				//this is true if the book is overdue
+						hasOverdue = true;
+						canBorrow = false;
+					}
+				}
+			}
+		}
+		//Checking if they are at their max number of books borrowed:
+		if (teachers[userIndex].getMaxAllowed() <= teachers[userIndex].getBorrowedSize()) {
+			canBorrow = false;
+			cout << "You already have borrowed your maximum amount of books. Please return a book to take one out." << endl;
+		}
+		if (hasOverdue) {
+			cout << "You have overdue books. Please return them to take a new one out." << endl;
+		}
+
+		if (canBorrow) {
+			for (int i = 0; i < copiez.size(); i++) {//loops through all the copies to find matching ISBN
+				if (copiez[i].getISBN() == ISBN) {
+					if (copiez[i].getAvailable()) {	// If this copy is available
+						if (copiez[i].getReserverSize() == 0) {	// If the copy is not reserved the index is saved and the for loop is broken
+							availableCopies.push_back(i);
+						}
+						else {
+							if (copiez[i].getReserver(0) == teachers[userIndex].getName()) { //Checks if the User is the reservee
+								availableCopies.push_back(i);
+							}
+						}
+					}
+				}
+			}
+			cout << "Here is a list of the book ID's of the available copies with the given ISBN:" << endl;
+			for (int i = 0; i < availableCopies.size(); i++) {
+				cout << i+1 << ": " << copiez[availableCopies[i]].getID() << endl;
+			}
+			cout << endl << "Which one would you like to borrow?" << endl;
+			cin >> bookIndex;
+			bookIndex--;
+
+			teachers[userIndex].borrowCopy(copiez[availableCopies[bookIndex]].getID()); // Adds the ID of the copy to the student's list
+			copiez[availableCopies[bookIndex]].setReader(teachers[userIndex].getName()); //sets reader name in the copy
+			copiez[availableCopies[bookIndex]].setBorrowDate(adjustTime(getTime()));	//Sets borrow time in the copy
+			copiez[availableCopies[bookIndex]].setAvailable(false); //update availibilty 
+			copiez[availableCopies[bookIndex]].deleteFirstReserver();	//removes the logged in user from the reserve list
+			copiez[availableCopies[bookIndex]].setExpireDate(adjustTime(getTime()) + teachers[userIndex].getMaxTime() - copiez[availableCopies[bookIndex]].getReserverSize());	//sets the expiration date, its the users maxtime - the number of current reservers
+
+			cout << "You have successfully borrowed this book. It must be returned within " << teachers[userIndex].getMaxTime() - copiez[availableCopies[bookIndex]].getReserverSize() << " days." << endl;
+		}
+	}
 }
 
 
@@ -952,17 +1076,68 @@ void addBook() {
 }
 
 
-void deleteBook() {
-	
+void deleteBook() {    // Function deletes a copy of a book from the list of copies
+	int ID;
 
+	cout << "Enter the ID of the copy to be deleted: ";
+	cin >> ID;
+	for (int i = 0; i < copiez.size(); i++) {
+		if (ID == copiez[i].getID()) {
+			if (!copiez[i].getAvailable()) {
+				cerr << "Cannot delete, copy is lent out." << endl;
+				break;
+			}
+			else {
+				copiez.erase(copiez.begin() + i);
+				cout << "Copy deleted." << endl;
+				break;
+			}
+		}
+	}
 }
 
 
 
 
 void renewBook() {
+	int id, index;
+	bool hasOverDue = false;
+	cout << "Which book would you like to renew?" << endl;
+	cin >> id;
+	for (int i = 0; i < students[userIndex].getBorrowedSize(); i++) {	// Loops for the number of borrowed books
+		for (int j = 0; j < copiez.size(); j++) {
+			if (copiez[j].getID() == students[userIndex].getBorrowedBook(j)) {	//This is true if they have borrowed this book
+				if (copiez[j].getExpireDate() < adjustTime(getTime())) {				//this is true if the book is overdue
+					hasOverDue = true;
+				}
+			}
+		}
+	}
 
+	if (!hasOverDue) {
+		for (int i = 0; i < copiez.size(); i++) {     // Searching for the matching ID
+			if (copiez[i].getID() == id) {
+				index = i;
+				break;
+			}
+		}
+		if (copiez[index].getReserverSize() == 0) {
+			copiez[index].setBorrowDate(adjustTime(getTime()));
+			if(userType ==1)
+				copiez[index].setExpireDate(adjustTime(getTime()) + 86400 * students[userIndex].getMaxTime());
+			if(userType ==2)
+				copiez[index].setExpireDate(adjustTime(getTime()) + 86400 * teachers[userIndex].getMaxTime());
+		}
+		else {
+			cout << "Sorry, this book can not be renewed because it is reserved by others." << endl;
+		}
+	}
+	else {
+		cout << "You have an overdue book please return that before renewing books." << endl;
+	}
 }
+
+
 
 
 void reserveBook() {
