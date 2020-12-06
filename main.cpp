@@ -1306,7 +1306,7 @@ void recommendBook() {
 			return;
 		}
 		else {
-			ID = teachers[userIndex].getListValue(teachers[userIndex].borrowsListSize());
+			ID = teachers[userIndex].getBorrowedBook(teachers[userIndex].borrowsListSize());
 
 			for (int i = 0; i < copiez.size(); i++) {
 				if (copiez[i].getID() == ID) {
